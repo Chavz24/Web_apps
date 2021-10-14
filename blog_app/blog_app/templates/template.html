@@ -5,8 +5,14 @@
     </head>
     <body>
         <div class="container">
-            {% block content %}
-            {% endblock %}
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message}}</div>
+        {% endfor%}
+        {%  if error %}
+            <p class="error"><strong>Error</strong>{{ error }}</p>
+        {% endif %}    
+        {% block content %}
+        {% endblock %}
         </div>
     </body>
 </html>

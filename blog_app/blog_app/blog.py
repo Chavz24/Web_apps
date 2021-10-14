@@ -8,16 +8,16 @@ from flask import redirect
 from flask import url_for
 from flask import g
 import sqlite3
+import keys
 
 
 # configuration
 
 DATABASE = "blog.db"
-USERNAME = "ADMIN"
-PASSWORD = "ADMIN"
-SECRET_KEY = (
-    r"\x10\xf9$\xb3(\xe7\xb6\xcc\x1a)8\xd1\xd9\x7f\x96\xa4c\xbcE\xef\xa2\n\x11j"
-)
+USERNAME = keys.user
+PASSWORD = keys.password
+SECRET_KEY = keys.key
+
 
 app = Flask(__name__)
 
@@ -54,6 +54,13 @@ def login():
 @app.route("/main")
 def main():
     return render_template("main.html")
+
+
+@app.route("/logout")
+def logout():
+    session.pop("logged_in", None)
+    flash("You were logged out")
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
