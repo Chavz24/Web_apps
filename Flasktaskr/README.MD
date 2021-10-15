@@ -4,7 +4,7 @@ This is web app has the following features
 
 2.New users can registrer in a separate resgistration page.
 
-3.Once sgined in user can add new tasks;
+3.Once signed in user can add new tasks;
 
     -Each task must have:
         -A name.
