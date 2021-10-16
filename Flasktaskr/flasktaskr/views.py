@@ -1,4 +1,4 @@
-from flask import Flask, flash, session, url_for
+from flask import Flask, flash, session, url_for, g
 from flask import redirect, render_template, request
 from functools import wraps
 import sqlite3
@@ -53,3 +53,94 @@ def login():
             flash("Bienvenue!!")
             return url_for("tasks")
     return render_template("login.html")
+
+
+# shows al the tasks
+@app.route("/tasks/")
+@login_required
+def tasks():
+    g.db = connect_db()
+
+    cursor = g.db.execute(
+        "SELECT name, due_date, priority, task_id from tasks WHERE status=1"
+    )
+
+    open_tasks = [
+        dict(name=row[0], due_date=row[1], priority=row[2], tasks_id=row[3])
+        for row in cursor.fetchall()
+    ]
+
+    cursor = g.db.execute(
+        "SELECT name, due_date, priority, task_id from tasks WHERE status=0"
+    )
+
+    closed_tasks = [
+        dict(name=row[0], due_date=row[1], priority=row[2], tasks_id=row[3])
+        for row in cursor.fetchall()
+    ]
+
+    g.db.close()
+    return render_template(
+        "tasks.html",
+        form=AddTaskForm(request.form),
+        open_tasks=open_tasks,
+        closed_tasks=closed_tasks,
+    )
+
+
+# adding tasks
+
+@app.route("/add/", method="POST")
+@login_required
+def new_task():
+
+    g.db = connect_db()
+
+    name = request.form["name"]
+    due_date = request.form["due_date"]
+    priority = request.form["priority"]
+
+    if not name or not due_date or not priority:
+        flash("All fields are requiered. Try again.")
+        return redirect(url_for("tasks"))
+    
+    else:
+        g.db.execute(
+            """
+            INSERT INTO tasks(name, due_date, priority, status) 
+            VALUES(?,?,?,1)
+            """, [
+                request.form["name"],
+                request.form["due_date"],
+                request.form["priority"]
+            ]
+        )
+
+        g.db.commit()
+        g.db.close()
+        flash("New tasks added successfully. Thanks!.")
+        return redirect(url_for("tasks"))
+
+
+
+# update tasks status
+
+@app.route("/complete/<int:task_id>/")
+@login_required
+def complete(task_id):
+
+    g.db = connect_db()
+
+    g.db.execute(
+        f"""
+        UPDATE tasks SET status=0 WHERE task_id={task_id}
+        """
+    )
+
+    g.db.commit()
+    g.db.close()
+    flash("The task marked a completed")
+    return redirect(url_for("tasks"))
+
+
+# delete tasks 129
