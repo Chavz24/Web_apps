@@ -1,5 +1,6 @@
 from flask import Flask, flash, session, url_for, g
 from flask import redirect, render_template, request
+from forms import AddTaskForm
 from functools import wraps
 import sqlite3
 
@@ -51,7 +52,7 @@ def login():
         else:
             session["logged_in"] = True
             flash("Bienvenue!!")
-            return url_for("tasks")
+            return redirect(url_for("tasks"))
     return render_template("login.html")
 
 
@@ -66,7 +67,7 @@ def tasks():
     )
 
     open_tasks = [
-        dict(name=row[0], due_date=row[1], priority=row[2], tasks_id=row[3])
+        dict(name=row[0], due_date=row[1], priority=row[2], task_id=row[3])
         for row in cursor.fetchall()
     ]
 
@@ -75,7 +76,7 @@ def tasks():
     )
 
     closed_tasks = [
-        dict(name=row[0], due_date=row[1], priority=row[2], tasks_id=row[3])
+        dict(name=row[0], due_date=row[1], priority=row[2], task_id=row[3])
         for row in cursor.fetchall()
     ]
 
@@ -89,8 +90,7 @@ def tasks():
 
 
 # adding tasks
-
-@app.route("/add/", method="POST")
+@app.route("/add/", methods=["POST"])
 @login_required
 def new_task():
 
@@ -103,17 +103,17 @@ def new_task():
     if not name or not due_date or not priority:
         flash("All fields are requiered. Try again.")
         return redirect(url_for("tasks"))
-    
+
     else:
         g.db.execute(
             """
-            INSERT INTO tasks(name, due_date, priority, status) 
+            INSERT INTO tasks(name, due_date, priority, status)
             VALUES(?,?,?,1)
             """, [
                 request.form["name"],
                 request.form["due_date"],
                 request.form["priority"]
-            ]
+            ],
         )
 
         g.db.commit()
@@ -122,9 +122,7 @@ def new_task():
         return redirect(url_for("tasks"))
 
 
-
 # update tasks status
-
 @app.route("/complete/<int:task_id>/")
 @login_required
 def complete(task_id):
@@ -132,9 +130,7 @@ def complete(task_id):
     g.db = connect_db()
 
     g.db.execute(
-        f"""
-        UPDATE tasks SET status=0 WHERE task_id={task_id}
-        """
+        "UPDATE tasks SET status=0 WHERE task_id="+str(task_id)
     )
 
     g.db.commit()
@@ -143,4 +139,19 @@ def complete(task_id):
     return redirect(url_for("tasks"))
 
 
-# delete tasks 129
+# delete tasks
+
+
+@app.route("/delete/<int:task_id>")
+@login_required
+def delete_entry(task_id):
+    g.db = connect_db()
+    g.db.execute("DELETE FROM tasks WHERE task_id="+str(task_id))
+    g.db.commit()
+    g.db.close()
+    flash("Entry was deleted!!")
+    return redirect(url_for("tasks"))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
