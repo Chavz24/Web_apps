@@ -135,7 +135,7 @@ def complete(task_id):
 
     g.db.commit()
     g.db.close()
-    flash("The task marked a completed")
+    flash("Task marked as completed!")
     return redirect(url_for("tasks"))
 
 
