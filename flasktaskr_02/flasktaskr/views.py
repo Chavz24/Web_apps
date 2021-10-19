@@ -1,12 +1,9 @@
-from abc import abstractproperty
-from logging import error
-from flask import config, flash, Flask
+from flask import flash, Flask
 from flask import redirect, request, render_template
 from flask import url_for, session, g
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from forms import AddTaskForm
-from models import Task
 
 
 # app configuration
@@ -16,6 +13,7 @@ app.config.from_object("_config")
 
 # creating the sqlAlquemy object by passing it the application object
 db = SQLAlchemy(app)
+from models import Task
 
 
 # creating the login_required func
@@ -70,7 +68,7 @@ def tasks():
     )
 
     closed_tasks = (
-        db.session.query(Task).filter_by(satatus="0").order_by(
+        db.session.query(Task).filter_by(status="0").order_by(
             Task.due_date.asc())
     )
 
@@ -88,10 +86,13 @@ def tasks():
 def new_task():
     form = AddTaskForm(request.form)
     if request.method == "POST":
-
         if form.validate_on_submit():
             new_task = Task(
-                form.name.data, form.due_date.data, form.priority.data, "1")
+                form.name.data,
+                form.due_date.data,
+                form.priority.data,
+                "1"
+            )
             db.session.add(new_task)
             db.session.commit()
             flash("New entry was posted! Merci!")
@@ -116,5 +117,6 @@ def complete(task_id):
 def delete_entry(task_id):
     new_id = task_id
     db.session.query(Task).filter_by(task_id=new_id).delete()
+    db.session.commit()
     flash("Objetif eliminé!")
     return redirect(url_for("tasks"))
