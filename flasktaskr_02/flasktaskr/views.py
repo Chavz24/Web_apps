@@ -1,9 +1,11 @@
+from logging import error
 from flask import flash, Flask
 from flask import redirect, request, render_template
 from flask import url_for, session, g
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-from forms import AddTaskForm
+from flask_wtf import form
+from forms import AddTaskForm, RegisterForm, LoginForm
 
 
 # app configuration
@@ -13,7 +15,7 @@ app.config.from_object("_config")
 
 # creating the sqlAlquemy object by passing it the application object
 db = SQLAlchemy(app)
-from models import Task
+from models import Task, User
 
 
 # creating the login_required func
@@ -120,3 +122,24 @@ def delete_entry(task_id):
     db.session.commit()
     flash("Objetif eliminé!")
     return redirect(url_for("tasks"))
+
+
+# register page
+@app.route("/register/", methods=["GET", "POST"])
+def register():
+    error = None
+    form = RegisterForm(request.form)
+    if request.method == "POST":
+        if form.validate_on_submit():
+            new_user = User(
+                form.name.data,
+                form.email.data,
+                form.password.data
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash("Thank you for registering. Please login to continue.")
+            return redirect(url_for("login"))
+
+    return render_template("register.html", form=form, error=error)
+# 154
