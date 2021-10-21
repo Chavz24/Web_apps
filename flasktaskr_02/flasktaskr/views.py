@@ -1,4 +1,4 @@
-from logging import error
+from datetime import datetime as dt
 from flask import flash, Flask
 from flask import redirect, request, render_template
 from flask import url_for, session, g
@@ -37,6 +37,7 @@ def login_required(test):
 @app.route("/logout/")
 def logout():
     session.pop("logged_in", None)
+    session.pop("user_id", None)
     flash("Au revoir!")
     return redirect(url_for("login"))
 
@@ -44,20 +45,22 @@ def logout():
 @app.route("/", methods=["GET", "POST"])
 def login():
     error = None
+    form = LoginForm(request.form)
     if request.method == "POST":
+        if form.validate_on_submit():
+            user = User.query.filter_by(name=request.form["name"]).first()
 
-        if (
-            request.form["username"] != app.config["USERNAME"]
-            or request.form["password"] != app.config["PASSWORD"]
-        ):
-            error = "Invalid Credentials. Try again!"
-
+            if user is not None and user.password == request.form["password"]:
+                session["logged_in"] = True
+                # login the user_id in the session
+                session["user_id"] = user.id
+                flash(f"Bienvenue {user}")
+                return redirect(url_for("tasks"))
+            else:
+                error = "Invalid user name or password. Try again!"
         else:
-            session["logged_in"] = True
-            flash("Salut!")
-            return redirect(url_for("tasks"))
-
-    return render_template("login.html")
+            error = "Both fields are required."
+    return render_template("login.html", form=form, error=error)
 
 
 # tasks views page
@@ -93,13 +96,20 @@ def new_task():
                 form.name.data,
                 form.due_date.data,
                 form.priority.data,
-                "1"
+                dt.utcnow(),
+                "1",
+                session["user_id"]
             )
             db.session.add(new_task)
             db.session.commit()
             flash("New entry was posted! Merci!")
+            return redirect(url_for("tasks"))
+        
+        else:
+            flash("All fields are required!")
+            return redirect(url_for("tasks"))
 
-    return redirect(url_for("tasks"))
+    return render_template("tasks.html", form=form)
 
 
 # mark tasks completed

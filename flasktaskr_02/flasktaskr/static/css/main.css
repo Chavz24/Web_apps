@@ -1,10 +1,10 @@
 body {
     font-family: sans-serif;
-    background: #eee;
+    background: rgb(10, 10, 10);
   }
   
   a, h1, h2 {
-    color: #377BA8;
+    color: #89db96;
   }
   
   h1, h2 {
@@ -13,7 +13,7 @@ body {
   }
   
   h1 {
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid rgb(236, 176, 10);
   }
   
   h2 {
@@ -28,7 +28,7 @@ body {
   .page {
     margin: 2em auto;
     width: 50em;
-    border: 5px solid #ccc;
+    border: 5px solid rgb(236, 176, 10);
     padding: 0.8em;
     background: white;
   }
@@ -125,7 +125,7 @@ body {
   }
   
   .button {
-    background-color:#000;
+    background-color:rgba(236, 13, 13, 0.856);
     display:inline-block;
     color:#ffffff;
     font-size:13px;
@@ -134,3 +134,12 @@ body {
     text-decoration:none;
     position:relative;
   }
+
+.inline-form .input-group{
+  display: inline-block;
+  margin: 10px 5px;
+}
+
+.input-group input{
+  width: 100%;
+}
