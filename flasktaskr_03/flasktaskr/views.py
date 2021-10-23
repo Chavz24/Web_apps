@@ -6,6 +6,7 @@ from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import form
 from forms import AddTaskForm, RegisterForm, LoginForm
+from sqlalchemy.exc import IntegrityError
 
 
 # app configuration
@@ -58,6 +59,7 @@ def login_required(test):
 
 # updating views handlers
 @app.route("/logout/")
+@login_required
 def logout():
     session.pop("logged_in", None)
     session.pop("user_id", None)
@@ -163,9 +165,14 @@ def register():
                 form.email.data,
                 form.password.data
             )
-            db.session.add(new_user)
-            db.session.commit()
-            flash("Thank you for registering. Please login to continue.")
-            return redirect(url_for("login"))
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                flash("Thank you for registering. Please login to continue.")
+                return redirect(url_for("login"))
+
+            except IntegrityError:
+                error = "The username and/or e-mail already exists."
+                return render_template("register.html", form=form, error=error)
 
     return render_template("register.html", form=form, error=error)

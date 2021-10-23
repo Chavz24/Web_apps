@@ -75,7 +75,7 @@ class RegisterForm(FlaskForm):
         "Repeat Password",
         validators=[
             InputRequired(),
-            EqualTo("password", message="Passwords must match")
+            EqualTo("password", message="Passwords must match.")
         ]
     )
 
