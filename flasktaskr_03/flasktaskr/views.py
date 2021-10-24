@@ -91,7 +91,7 @@ def login():
 # tasks views page
 @app.route("/tasks/")
 @login_required
-def tasks():  
+def tasks():
     return render_template(
         "tasks.html",
         form=AddTaskForm(request.form),
@@ -138,7 +138,7 @@ def complete(task_id):
     new_id = task_id
     db.session.query(Task).filter_by(task_id=new_id).update({"status": 0})
     db.session.commit()
-    flash("Objetive teminé!")
+    flash("Objetif terminé!")
     return redirect(url_for("tasks"))
 
 

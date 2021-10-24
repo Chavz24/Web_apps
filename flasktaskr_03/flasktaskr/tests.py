@@ -1,6 +1,9 @@
 import unittest
 import os
 
+from flask import sessions
+from werkzeug.wrappers import response
+
 
 from views import app, db
 from _config import basedir
@@ -46,9 +49,28 @@ class TestCase(unittest.TestCase):
         )
 
     def logout(self):
-        """Tests loged in users can logout"""
+        """Tests logged in users can logout"""
 
         return self.app.get("/logout/", follow_redirects=True)
+
+    def create_user(self, name, email, password):
+        """Creates a new user directly into the db."""
+        new_user = User(name=name, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+
+    def create_new_task(self, name):
+        return self.app.post(
+            "/add/",
+            data=dict(
+                name=name,
+                due_date="10/08/2021",
+                priority="1",
+                posted_date="10/07/2021",
+                status="1",
+            ),
+            follow_redirects=True,
+        )
 
     # each test should start with "test"
 
@@ -89,17 +111,19 @@ class TestCase(unittest.TestCase):
         self.assertIn(b" already exists", response.data)
 
     def test_user_logout(self):
-        self.register("chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
+        self.register(
+            "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
         self.login("chavez24", "chavez2424")
         response = self.logout()
         self.assertIn(b"Au revoir", response.data)
 
-        # not loged in user cannot logout
+        # not logged in user cannot logout
         response = self.logout()
         self.assertNotIn(b"Au revoir", response.data)
 
     def test_user_can_access_tasks(self):
-        self.register("chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
+        self.register(
+            "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
         self.login("chavez24", "chavez2424")
         response = self.app.get("/tasks/")
         self.assertEqual(response.status_code, 200)
@@ -109,8 +133,48 @@ class TestCase(unittest.TestCase):
 
         # need to log in to access tasks
         response = self.app.get("/tasks/", follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
         self.assertIn(b"You must to log in", response.data)
+
+    def test_user_can_add_tasks(self):
+        self.create_user("chavez24", "chavez24@gmail.com", "chavez2424")
+        self.login("chavez24", "chavez2424")
+        self.app.get("/tasks/", follow_redirects=True)
+        response = self.create_new_task("Buy groceries")
+        self.assertIn(b"New entry was posted!", response.data)
+
+        # cannot post tasks when there is an error
+        response = self.create_new_task("")
+        self.assertIn(b"This field is required", response.data)
+
+    def test_user_can_complete_delete_tasks(self):
+        self.create_user("chavez24", "chavez24@gmail.com", "chavez2424")
+        self.login("chavez24", "chavez2424")
+        self.app.get("/tasks/", follow_redirects=True)
+        self.create_new_task(name="Gramma birthday")
+        response = self.app.get("/complete/1/", follow_redirects=True)
+        self.assertIn(b"Objetif termin", response.data)
+
+        # deteting tasks
+
+        response = self.app.get("/delete/1/", follow_redirects=True)
+        self.assertIn(b"Objetif elimin", response.data)
+    
+    def test_users_tasks_relations(self):
+        # user 1 creates a tasks
+        self.create_user("chavez24", "chavez24@gmail.com", "chavez2424")
+        self.login("chavez24", "chavez2424")
+        self.app.get("/tasks/", follow_redirects=True)
+        self.create_new_task(name="Gramma birthday")
+        self.logout()
+
+        # user 2 completes tasks created buy user 1(is not suposed to happen)
+        self.create_user("chavez22", "chavez22@gmail.com", "chavez2424")
+        self.login("chavez22", "chavez2424")
+        self.app.get("/tasks/", follow_redirects=True)
+        response = self.app.get("/complete/1/", follow_redirects=True)
+        self.assertNotIn(
+            b"Objetif termin", response.data
+        )
 
 
 if __name__ == "__main__":
