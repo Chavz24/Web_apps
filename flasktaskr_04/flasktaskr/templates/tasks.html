@@ -4,12 +4,12 @@
 <h1>Welcome to flasktaskr</h1>
 <br>
 <a href="{{ url_for('logout') }}">Logout</a>
-<div class="add-task">
+<div class="position-relative">
     <h3>Add new task:</h3>
 
-    <form action="{{ url_for('new_task')}}" method="post" class="inline-form">
+    <form action="{{ url_for('new_task')}}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         {{ form.csrf_token }}
-        <div class="input-group">
+        <div class="col-12">
             {{ form.name.label }}
             {{ form.name(placeholder="Task name") }}
             {% if form.name.errors %}
@@ -21,7 +21,7 @@
             {% endif %}
         </div>
 
-        <div class="input-group">
+        <div class="col-12">
             {{ form.due_date.label }}
             {{ form.due_date(placeholder="Due date") }}
             {% if form.due_date.errors %}
@@ -33,7 +33,7 @@
             {% endif %}
         </div>
 
-        <div class="input-group">
+        <div class="col-12">
             {{ form.priority.label }}
             {{ form.priority(placeholder="priority") }}
             {% if form.priority.errors %}
@@ -44,7 +44,7 @@
                 </div>
             {% endif %}
         </div>
-        <div class="input-group">
+        <div class="col-12">
             <button type="submit">Add new task</button>
         </div>
     </form>
@@ -54,29 +54,29 @@
     <br>
     <br>
     <h2>Open tasks:</h2>
-    <div class="datagrid">
-        <table>
+    <div class="">
+        <table class="table table-striped table-hover">
             <thead>
-                <tr>
-                    <th width="200px"><strong>Task Name</strong></th>
-                    <th width="75px"><strong>Due Date</strong></th>
-                    <th width="100px"><strong>Posted Date</strong></th>
-                    <th width="50px"><strong>Priority</strong></th>
-                    <th width="90px"><strong>Posted By</strong></th>
+                <tr class="table-primary">
+                    <th width="200px" scope="col"><strong>Task Name</strong></th>
+                    <th width="150px" scope="col"><strong>Due Date</strong></th>
+                    <th width="150px" scope="col"><strong>Posted Date</strong></th>
+                    <th width="75px" scope="col" ><strong>Priority</strong></th>
+                    <th width="100px" scope="col"><strong>Posted By</strong></th>
                     <th><strong>Actions</strong></th>
                 </tr>
             </thead>
 
             {% for task in open_tasks %}
             <tr>
-                <td width="200px">{{ task.name }}</td>
-                <td width="75px">{{ task.due_date }}</td>
-                <td width="100px">{{ task.posted_date }}</td>
-                <td width="50px">{{ task.priority }}</td>
-                <td width="90px">{{ task.poster.name }}</td>
+                <td width="200px" scope="col">{{ task.name }}</td>
+                <td width="150px" scope="col">{{ task.due_date }}</td>
+                <td width="150px" scope="col">{{ task.posted_date }}</td>
+                <td width="75px" scope="col">{{ task.priority }}</td>
+                <td width="100px" scope="col">{{ task.poster.name }}</td>
                 <td>
-                    <a href="{{ url_for('delete_entry', task_id = task.task_id) }}">Delete</a>
                     <a href="{{ url_for('complete', task_id = task.task_id) }}">Mark as complete</a>
+                    <a href="{{ url_for('delete_entry', task_id = task.task_id) }}">Delete</a> 
                 </td>
             </tr>
             {% endfor %}
@@ -89,14 +89,14 @@
     <br>
     <h2>Closed tasks:</h2>
     <div class="datagrid">
-        <table>
+        <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th width="200px"><strong>Task Name</strong></th>
-                    <th width="75px"><strong>Due Date</strong></th>
-                    <th width="100px"><strong>Posted Date</strong></th>
-                    <th width="50px"><strong>Priority</strong></th>
-                    <th width="90px"><strong>Posted By</strong></th>
+                    <th width="200px" scope="col"><strong>Task Name</strong></th>
+                    <th width="150px" scope="col"><strong>Due Date</strong></th>
+                    <th width="150px" scope="col"><strong>Posted Date</strong></th>
+                    <th width="75px" scope="col" ><strong>Priority</strong></th>
+                    <th width="100px" scope="col"><strong>Posted By</strong></th>
                     <th><strong>Actions</strong></th>
                 </tr>
             </thead>
