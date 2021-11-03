@@ -1,14 +1,20 @@
 {%  extends "_base.html" %}
 {% block content %}
 
-<h1>Welcome to FlaskTaskr.</h1>
+
 <h3>Please login to access your task list.</h3>
 
 <form action="/" method="post">
     {{ form.csrf_token }}
-    <div>
-        {{ form.name.label }}
-        {{ form.name(class_="from_control", placeholder="Username") }}
+    <div class="container">
+        <div class="row mb-1">
+            {{ form.name.label(for="colFormLabel", class="col-sm-1 col-form-label") }}
+            <div class="col-sm-4">
+                {{ form.name(placeholder="Username", class="form-control" , id="colFormLabel") }}
+            </div>
+
+        </div>   
+        
         {% if form.name.errors %}
             <span class="error">
                 {% for error in form.name.errors %}
@@ -16,11 +22,12 @@
                 {% endfor %}
             </span>
         {% endif %}
+        
     </div>
 
     <br>
     
-    <div>
+    <div class="container">
         {{ form.password.label }}
         {{ form.password(class_="form_control", placeholder="Password") }}
         {% if form.password.errors %}
@@ -31,13 +38,11 @@
             </span>
         {% endif %}
     </div>
-    <div>
+    <div class="container">
         <br>
         <button type="submit">Login</button>
         <br>
     </div>
 </form>
-
-<p><em>Need an account?. </em><a href="/register/">Signup!</a></p>
 
 {% endblock %}

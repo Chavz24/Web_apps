@@ -1,9 +1,7 @@
 {% extends "_base.html" %}
 {% block content %}
-
-    <h1>Welcome to Flasktaskr!</h1>
     <h3>Please register to access the task list.</h3>
-    <form method="post" action="">
+    <form class="form-control" method="post" action="">
         {{ form.csrf_token }}
         <div>
             {{ form.name.label }}
@@ -58,11 +56,4 @@
             <button type="submit">Summit</button>
         </div>
     </form>
-    
-    <br>
-
-    <div class="">
-        <p><em>Already registered?</em> Click <a href="/">here</a> to login.</p>
-    </div>
-
 {% endblock %}
