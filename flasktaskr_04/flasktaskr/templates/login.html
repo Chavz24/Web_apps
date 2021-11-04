@@ -2,18 +2,19 @@
 {% block content %}
 
 
-<h3>Please login to access your task list.</h3>
+<h3 class="text-info">Please login to access your task list.</h3>
+<br>
 
-<form action="/" method="post">
+<form action="/" method="post" class="p-4 p-md-5 border rounded-3 bg-#0dcaf0">
     {{ form.csrf_token }}
-    <div class="container">
-        <div class="row mb-1">
-            {{ form.name.label(for="colFormLabel", class="col-sm-1 col-form-label") }}
-            <div class="col-sm-4">
-                {{ form.name(placeholder="Username", class="form-control" , id="colFormLabel") }}
-            </div>
+    
+    <div class="row mb-4">
+        {{ form.name.label(for="username", class="col-sm-2 col-form-label") }}
+        <div class="col-sm-5">
+            {{ form.name(placeholder="Username", class="form-control" , id="username") }}
+        </div>
 
-        </div>   
+        
         
         {% if form.name.errors %}
             <span class="error">
@@ -28,8 +29,14 @@
     <br>
     
     <div class="container">
-        {{ form.password.label }}
-        {{ form.password(class_="form_control", placeholder="Password") }}
+        <div class="row mb-1">
+            {{ form.password.label(for="colFormLabel", class="col-sm-1 col-form-label") }}
+        
+            <div class="col-sm-4">
+                {{ form.password(class="form-control", placeholder="Password", id="colFormLabel") }}
+            </div>
+        </div>
+        
         {% if form.password.errors %}
             <span class="error">
                 {% for error in form.password.errors %}
@@ -40,7 +47,7 @@
     </div>
     <div class="container">
         <br>
-        <button type="submit">Login</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
         <br>
     </div>
 </form>

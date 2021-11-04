@@ -1,12 +1,17 @@
 {% extends "_base.html" %}
 {% block content %}
-    <h3>Please register to access the task list.</h3>
+    <h3 class="text-info">Please register to access the task list.</h3>
+
     <form class="form-control" method="post" action="">
         {{ form.csrf_token }}
-        <div>
-            {{ form.name.label }}
-            {{ form.name(class_="form_control",
-            placeholder="Username here", autofocus=true) }}
+        <div class="container">
+            <div class="row mb-1">
+                {{ form.name.label(for="colFormLabel", class="col-sm-2 col-form-label") }}
+                <div class="col-sm-4">
+                    {{ form.name(class="form-control", placeholder="Username here", autofocus=true,  id="colFormLabel") }}
+                </div>
+
+            </div>
             {% if form.name.errors %}
                 <ul class="error">
                     {% for error in form.name.errors %}
