@@ -17,12 +17,18 @@
       <!-- Bootstrap Styles -->
       
       <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css')}}">
-      <title>Welcome to FlaskTaskr</title>
+      <title>Welcome to FlaskTaskr🧧</title>
     </head>
     <body>
         
-        <div class="container-fluid col-xl-10 col-xxl-8 px-4 py-5">
-            <h1>Welcome to FlaskTaskr</h1>
+        <main class="container">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <h1>Welcome to FlaskTaskr🎈</h1>
+            </div>
+            
+            
+          
             {% for message in get_flashed_messages() %}
               <div class="flash">{{ message }}</div>
             {% endfor %}
@@ -33,8 +39,9 @@
 
             <br>
             {% block content %}
-            {% endblock %}
-        </div>
+            {% endblock %} 
+          </div>
+        </main>
         <script src="/static/node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
         <script src="/static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     </body>

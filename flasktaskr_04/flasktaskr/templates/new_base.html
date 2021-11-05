@@ -1,41 +1,41 @@
-{% extends "_base.html" %}
-
-{% block content %}
-
-<h1>Welcome to FlaskTaskr.</h1>
-<h3>Please sign in to access your task list</h3>
-
-<form class="form-signin" role="form" method="post" action="/">
-  {{ form.csrf_token }}
-  <div class="input-group">
-    {{ form.name(placeholder="user name") }}
-    {% if form.name.errors %}
-      <span class="error">
-        {% for error in form.name.errors %}
-          {{ error }}
-        {% endfor %}
-      </span>
-    {% endif %}
-  </div>
-  <div class="input-group">
-    {{ form.password(placeholder="password") }}
-    {% if form.password.errors %}
-      <span class="error">
-        {% for error in form.password.errors %}
-          {{ error }}
-        {% endfor %}
-      </span>
-    {% endif %}
-  </div>
-  <button class="btn btn-sm btn-success" type="submit">Sign in</button>
-  <br>
-  <br>
-  <p><em>Need an account?</em><a href="/register">Signup!!</a></p>
-</form>
-
-{% endblock %}
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
+<!doctype html>
+<html lang="en">
+  <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Complatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+      <nav class="nav">
+        <a class="nav-link active" aria-current="page" href="/">Login</a>
+        <a class="nav-link" href="/register/">Register</a>
+        <a class="nav-link" href="#">Link</a>   
+      </nav>
+      
+      <!-- Bootstrap Styles -->
+      
+      <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+      <title>Welcome to FlaskTaskr🧧</title>
+    </head>
+    <body>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1>m</h1>
+          </div>
+          <div class="col">
+            <h1>m</h1>
+          </div>
+          <div class="col">
+            <h1>m</h1>
+          </div>
+        </div>
+      </div>
+      
+        
+      
+      <script src="/static/node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+      <script src="/static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    </body>
+</html>
 
