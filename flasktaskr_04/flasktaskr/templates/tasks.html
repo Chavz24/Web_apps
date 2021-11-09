@@ -1,54 +1,77 @@
 {% extends "_base.html" %}
 {% block content %}
 
-<br>
 <a href="{{ url_for('logout') }}">Logout</a>
-<br>
-<br>
+
+
 <div class="position-relative">
     <h3>Add new task:</h3>
-
-    <form action="{{ url_for('new_task')}}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
-        {{ form.csrf_token }}
-        <div class="col-12">
-            {{ form.name.label }}
-            {{ form.name(placeholder="Task name") }}
-            {% if form.name.errors %}
+    <div class="col-12 col-md-8 col-lg-6">
+        <form action="{{ url_for('new_task')}}" method="post" class="form-control form-control-sm form-control-md form-control-lg">
+            {{ form.csrf_token }}
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-4 col-lg-5">
+                        {{ form.name.label(for="name") }}
+                    </div>
+                    <div class="col-12 col-md-8 col-lg-7">
+                        {{ form.name( id="name", placeholder="Task name", class="form-control") }}
+                    </div>
+                        
+                {% if form.name.errors %}
                 <div class="error">
                     {% for error in form.name.errors %}
                         {{ error }}
                     {% endfor %}
                 </div>
-            {% endif %}
-        </div>
+                {% endif %}
 
-        <div class="col-12">
-            {{ form.due_date.label }}
-            {{ form.due_date(placeholder="Due date") }}
-            {% if form.due_date.errors %}
-                <div class="error">
-                    {% for error in form.name.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+                    
 
-        <div class="col-12">
-            {{ form.priority.label }}
-            {{ form.priority(placeholder="priority") }}
-            {% if form.priority.errors %}
-                <div class="error">
-                    {% for error in form.priority.errors %}
-                        {{ error }}
-                    {% endfor %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-4 col-lg-5">
+                        {{ form.due_date.label(for="due_date") }}
+                    </div>
+                    <div class="col-12 col-md-8 col-lg-7">
+                        {{ form.due_date(placeholder="Due date", class="form-control") }}
+                    </div>
                 </div>
-            {% endif %}
-        </div>
-        <div class="col-12">
-            <button type="submit">Add new task</button>
-        </div>
-    </form>
+            </div>
+                
+                {% if form.due_date.errors %}
+                    <div class="error">
+                        {% for error in form.name.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-5">
+                            {{ form.priority.label(for="priority") }}
+                        </div>
+                        <div class="col-12 col-md-8 col-lg-7">
+                            {{ form.priority(class="form-control") }}
+                        </div>
+                    </div>
+                </div>
+                
+                {% if form.priority.errors %}
+                    <div class="error">
+                        {% for error in form.priority.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="container">
+                    <button class="btn btn-primary" type="submit">Add new Task</button>
+                </div>
+                
+        </form>
+    </div>
 </div>
 
 <div class="entries">
