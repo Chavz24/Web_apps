@@ -2,8 +2,8 @@
 {% block content %}
     
 <div class="row">
-    <div class="col-12 col-md-4 col-lg-6">
-        <h3 class="text-info">Please register to access the task list.</h3>
+    <div class="col-12 col-md-4 col-lg-6 my-3 text-center">
+        <h3>Please register to access the task list.</h3>
     </div>
     
     <div class="col-12 col-md-8 col-lg-6">
@@ -18,7 +18,7 @@
                         {{ form.name.label(for="colFormLabel") }}
                     </div>
                     
-                    <div class="col-12 col-md-8 col-lg-7">  
+                    <div class="col-12 col-md-8 col-lg-7 mb-2">  
                         {{ form.name(class="form-control", placeholder="Username", autofocus=true,  id="colFormLabel") }}
                     </div>
                     
@@ -43,7 +43,7 @@
                         {{ form.email.label(for="Email") }}
                     </div>
                     
-                    <div class="col-12 col-md-8 col-lg-7">  
+                    <div class="col-12 col-md-8 col-lg-7 mb-2">
                         {{ form.email(class="form-control", placeholder="Email", id="Email") }}
                     </div>
                     
@@ -56,8 +56,7 @@
                             {% for error in form.email.errors %}
                                 {{ error }}
                             {% endfor %}
-                        </li>
-                        
+                        </li>    
                     </ul>
                 {% endif %}
             
@@ -68,14 +67,14 @@
                         {{ form.password.label(for="Password") }}
                     </div>
                     
-                    <div class="col-12 col-md-8 col-lg-7">  
+                    <div class="col-12 col-md-8 col-lg-7 mb-2">
                         {{ form.password(class="form-control", placeholder="Password", id="Password") }}
                     </div>
                     
                 </div>
             </div>
         
-            {% if form.password .errors %}
+            {% if form.password.errors %}
                 <ul class="error">
                     <li>
                         {% for error in form.password.errors %}
@@ -92,7 +91,7 @@
                         {{ form.confirm.label(for="Confirm") }}
                     </div>
                     
-                    <div class="col-12 col-md-8 col-lg-7">  
+                    <div class="col-12 col-md-8 col-lg-7 mb-2">
                         {{ form.confirm(class="form-control", placeholder="Confirm password", id="Confirm") }}
                     </div>
                     
@@ -109,7 +108,7 @@
                     </ul>
                 {% endif %}
             
-            <div class="container">
+            <div class="container mt-2">
                 <button class="btn btn-primary" type="submit">Summit</button>
             </div>
         </form>

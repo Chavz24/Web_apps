@@ -4,6 +4,8 @@
 
 $botones: #f1a76a;
 $peligro: #dc3545;
+$select: #380c04f1;
+$border: #b216d1e0;
 
 
 /////////////////////////
@@ -15,6 +17,10 @@ $theme-colors: (
     "danger": $peligro,
 );
 
+$input-border-color: $border;
+$input-focus-border-color: $select;
+
+$input-focus-box-shadow : None;
 
 
 @import "../node_modules/bootstrap/scss/bootstrap";
