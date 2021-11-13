@@ -74,14 +74,14 @@ class TestCase(unittest.TestCase):
 
     # each test should start with "test"
 
-    def test_user_setup(self):
-        new_user = User("Jorge", "them@hotmail.com", "12341234")
-        db.session.add(new_user)
-        db.session.commit()
-        rows = db.session.query(User).all()
+    # def test_user_setup(self):
+    #     new_user = User("Jorge", "them@hotmail.com", "12341234")
+    #     db.session.add(new_user)
+    #     db.session.commit()
+    #     rows = db.session.query(User).all()
 
-        for row in rows:
-            assert row.name == "Jorge"
+    #     for row in rows:
+    #         assert row.name == "Jorge"
 
     # testing if the login page loads
     def test_form_present(self):
@@ -89,26 +89,26 @@ class TestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Please login to access your task list.", response.data)
 
-    def test_unregistered_user_cannot_login(self):
-        response = self.login("chavez26", "chavez26")
-        self.assertIn(b"Invalid user", response.data)
+    # def test_unregistered_user_cannot_login(self):
+    #     response = self.login("chavez26", "chavez26")
+    #     self.assertIn(b"Invalid user", response.data)
 
-    def test_user_can_login(self):
-        # creating user
-        response = self.register(
-            "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424"
-        )
-        self.assertIn(b"Thank you", response.data)
+    # def test_user_can_login(self):
+    #     # creating user
+    #     response = self.register(
+    #         "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424"
+    #     )
+    #     self.assertIn(b"Thank you", response.data)
 
-        # login created user
-        response = self.login("chavez24", "chavez2424")
-        self.assertIn(b"chavez24", response.data)
+    #     # login created user
+    #     response = self.login("chavez24", "chavez2424")
+    #     self.assertIn(b"chavez24", response.data)
 
-        # registering same user again
-        response = self.register(
-            "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424"
-        )
-        self.assertIn(b" already exists", response.data)
+    #     # registering same user again
+    #     response = self.register(
+    #         "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424"
+    #     )
+    #     self.assertIn(b" already exists", response.data)
 
     def test_user_logout(self):
         self.register(
@@ -158,7 +158,7 @@ class TestCase(unittest.TestCase):
 
         response = self.app.get("/delete/1/", follow_redirects=True)
         self.assertIn(b"Objetif elimin", response.data)
-    
+
     def test_users_tasks_relations(self):
         # user 1 creates a tasks
         self.create_user("chavez24", "chavez24@gmail.com", "chavez2424")

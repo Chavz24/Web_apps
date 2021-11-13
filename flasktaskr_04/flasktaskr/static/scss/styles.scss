@@ -6,6 +6,11 @@ $botones: #f1a76a;
 $peligro: #dc3545;
 $select: #380c04f1;
 $border: #b216d1e0;
+$exito: #25FA00;
+$msj: #00FAF9;
+
+
+
 
 
 /////////////////////////
@@ -15,6 +20,9 @@ $border: #b216d1e0;
 $theme-colors: (
     "primary": $botones,
     "danger": $peligro,
+    "success": $exito,
+    "info": $msj, 
+
 );
 
 $input-border-color: $border;

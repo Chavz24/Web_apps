@@ -31,32 +31,27 @@
             <div class="col-12 my-5 text-center">
               <h1>Welcome to FlaskTaskr🎈</h1>
             </div>
-            
-            <div class="content">
-                {% for message in get_flashed_messages() %}
-                <div class="alert alert-success" role="alert">
-                  {{ message }}
-                </div>
-                
-              
-                {% endfor %}
-
+             
+              {% for message in get_flashed_messages() %}
+              <div class="col-12 col-md-5 alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
+                      
+              {% endfor %}
 
               {% if error %}
-              <div class="alert alert-warning" role="alert">Error: 
+              <div class="col-12 col-md-5 alert alert-danger alert-dismissible fade show" role="alert">Error: 
                 {{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
               {% endif %}
 
-            {% block content %}
-            {% endblock %} 
-
-            </div>
-            
-            
+              {% block content %}
+              {% endblock %}
+       
         </main>
-        <script src="/static/node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-        <script src="/static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../static/node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+        <script src="../static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     </body>
 </html>

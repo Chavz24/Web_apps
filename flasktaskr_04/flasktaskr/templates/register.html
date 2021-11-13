@@ -26,8 +26,8 @@
             </div>
 
                 {% if form.name.errors %}
-                    <ul class="error">
-                        <li>
+                    <ul>
+                        <li class="col-12 alert alert-info">
                             {% for error in form.name.errors %}
                                 {{ error }}
                             {% endfor %}
@@ -51,8 +51,8 @@
             </div>
 
                 {% if form.email.errors %}
-                    <ul class="error">
-                        <li>
+                    <ul>
+                        <li class="col-12  alert alert-info">
                             {% for error in form.email.errors %}
                                 {{ error }}
                             {% endfor %}
@@ -75,8 +75,8 @@
             </div>
         
             {% if form.password.errors %}
-                <ul class="error">
-                    <li>
+                <ul>
+                    <li class="col-12 alert alert-info">
                         {% for error in form.password.errors %}
                             {{ error }}
                         {% endfor %}
@@ -99,8 +99,8 @@
             </div>
         
                 {% if form.confirm.errors %}
-                    <ul class="error">
-                        <li>
+                    <ul>
+                        <li class="col-12 alert alert-info fade">
                             {% for error in form.confirm.errors %}
                                 {{ error }}
                             {% endfor %}

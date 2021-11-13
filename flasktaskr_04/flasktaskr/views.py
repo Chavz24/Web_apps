@@ -83,8 +83,6 @@ def login():
                 return redirect(url_for("tasks"))
             else:
                 error = "Invalid user name or password. Try again!"
-        else:
-            error = "Both fields are required."
     return render_template("login.html", form=form, error=error)
 
 
