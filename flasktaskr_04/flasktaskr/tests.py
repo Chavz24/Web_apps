@@ -84,10 +84,10 @@ class TestCase(unittest.TestCase):
     #         assert row.name == "Jorge"
 
     # testing if the login page loads
-    def test_form_present(self):
-        response = self.app.get("/")
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Please login to access your task list.", response.data)
+    # def test_form_present(self):
+    #     response = self.app.get("/")
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertIn(b"Please login to access your task list.", response.data)
 
     # def test_unregistered_user_cannot_login(self):
     #     response = self.login("chavez26", "chavez26")
@@ -110,41 +110,41 @@ class TestCase(unittest.TestCase):
     #     )
     #     self.assertIn(b" already exists", response.data)
 
-    def test_user_logout(self):
-        self.register(
-            "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
-        self.login("chavez24", "chavez2424")
-        response = self.logout()
-        self.assertIn(b"Au revoir", response.data)
+    # def test_user_logout(self):
+    #     self.register(
+    #         "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
+    #     self.login("chavez24", "chavez2424")
+    #     response = self.logout()
+    #     self.assertIn(b"Au revoir", response.data)
 
-        # not logged in user cannot logout
-        response = self.logout()
-        self.assertNotIn(b"Au revoir", response.data)
+    #     # not logged in user cannot logout
+    #     response = self.logout()
+    #     self.assertNotIn(b"Au revoir", response.data)
 
-    def test_user_can_access_tasks(self):
-        self.register(
-            "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
-        self.login("chavez24", "chavez2424")
-        response = self.app.get("/tasks/")
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Add new task", response.data)
+    # def test_user_can_access_tasks(self):
+    #     self.register(
+    #         "chavez24", "chavez24@gmail.com", "chavez2424", "chavez2424")
+    #     self.login("chavez24", "chavez2424")
+    #     response = self.app.get("/tasks/")
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertIn(b"Add new task", response.data)
 
-        self.logout()
+    #     self.logout()
 
-        # need to log in to access tasks
-        response = self.app.get("/tasks/", follow_redirects=True)
-        self.assertIn(b"You must to log in", response.data)
+    #     # need to log in to access tasks
+    #     response = self.app.get("/tasks/", follow_redirects=True)
+    #     self.assertIn(b"You must to log in", response.data)
 
-    def test_user_can_add_tasks(self):
-        self.create_user("chavez24", "chavez24@gmail.com", "chavez2424")
-        self.login("chavez24", "chavez2424")
-        self.app.get("/tasks/", follow_redirects=True)
-        response = self.create_new_task("Buy groceries")
-        self.assertIn(b"New entry was posted!", response.data)
+    # def test_user_can_add_tasks(self):
+    #     self.create_user("chavez24", "chavez24@gmail.com", "chavez2424")
+    #     self.login("chavez24", "chavez2424")
+    #     self.app.get("/tasks/", follow_redirects=True)
+    #     response = self.create_new_task("Buy groceries")
+    #     self.assertIn(b"New entry was posted!", response.data)
 
-        # cannot post tasks when there is an error
-        response = self.create_new_task("")
-        self.assertIn(b"This field is required", response.data)
+    #     # cannot post tasks when there is an error
+    #     response = self.create_new_task("")
+    #     self.assertIn(b"This field is required", response.data)
 
     def test_user_can_complete_delete_tasks(self):
         self.create_user("chavez24", "chavez24@gmail.com", "chavez2424")
